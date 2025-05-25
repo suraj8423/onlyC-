@@ -1,22 +1,42 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using AbstractClass;
-using InterfaceExample;
-using InheritenceExample1;
-using InheritenceExample2;
-//using PolymorphismExample;
-using VirtualAndAbstractExample;
 
-class Program
+namespace SealedDemo;
+
+public class Printer
 {
-    static void Main(string[] args)
+    public virtual void Display()
     {
-        Animal dog = new Dog("pappu");
-        dog.MakeSound();
-        dog.Eat();
-
-        Animal cat = new Cat("moti");
-        cat.MakeSound();
-        cat.Eat();
+        Console.WriteLine("Display Dimension : 5*5");
     }
+    public virtual void Print()
+    {
+        Console.WriteLine("Printer is printing....\n");
+    }
+}
+
+public class LaserJet : Printer
+{
+    public sealed override void Display()
+    {
+        Console.WriteLine("Display Dimension : 10*10");
+    }
+
+    public override void Print()
+    {
+        Console.WriteLine("LaserJet Printer is printing....\n");
+    }
+}
+
+public sealed class InkJet : LaserJet
+{
+    public override void Print()
+    {
+        Console.WriteLine("InkJet Printer is printing....\n");
+    }
+
+    // The following method cannot be overridden because InkJet is sealed
+    // public override void Display()
+    // {
+    //     Console.WriteLine("Display Dimension : 15*15");
+    // }
 }

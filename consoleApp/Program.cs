@@ -1,19 +1,22 @@
 ﻿using System;
-namespace PartialClassDemo;
+using System.Runtime.CompilerServices;
+using AbstractClass;
+using InterfaceExample;
+using InheritenceExample1;
+using InheritenceExample2;
+//using PolymorphismExample;
+using VirtualAndAbstractExample;
 
-    class Program
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            PartialEmployee emp = new()
-            {
-                FirstName = "Pranaya",
-                LastName = "Rout",
-                Salary = 100000,
-                Gender = "Male"
-            };
-            emp.DisplayFullName();
-            emp.DisplayEmployeeDetails();
-            Console.ReadKey();
-        }
+        Animal dog = new Dog("pappu");
+        dog.MakeSound();
+        dog.Eat();
+
+        Animal cat = new Cat("moti");
+        cat.MakeSound();
+        cat.Eat();
     }
+}

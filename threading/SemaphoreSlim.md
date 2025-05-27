@@ -219,3 +219,100 @@ namespace AsynchronousProgramming
 string[] Responses= await Task.WhenAll(tasks);
 
 ```
+
+
+# SemaphoreSlim in C#
+
+## Why Do We Need SemaphoreSlim?
+
+In C#, we already have several synchronization primitives:
+
+| Synchronization Tool | Scope            | Allows Multiple Threads? | Use Case                                     |
+|----------------------|------------------|---------------------------|-----------------------------------------------|
+| `lock` / `Monitor`   | In-process only  | ❌ No                    | Internal threads                             |
+| `Mutex`              | Cross-process    | ❌ No                    | External threads                             |
+| `Semaphore`          | Cross-process    | ✅ Yes (Limited)         | Limit access for external threads            |
+| `SemaphoreSlim`      | In-process only  | ✅ Yes (Limited)         | Limit access for internal threads efficiently |
+
+- **Lock & Monitor**: One internal thread at a time.
+- **Mutex**: One external thread at a time.
+- **Semaphore**: Multiple external threads (configurable count).
+- **SemaphoreSlim**: Multiple internal threads (configurable count), **lightweight and faster** than Semaphore.
+
+---
+
+## What is SemaphoreSlim Class in C#?
+
+- The **`SemaphoreSlim`** class is used for thread synchronization **within a single application**.
+- It’s a **lightweight alternative** to `Semaphore`.
+- It limits the number of **internal threads** that can concurrently access a resource or pool of resources.
+- It is **not suitable** for cross-process synchronization (unlike `Semaphore` and `Mutex`).
+
+---
+
+## How Does SemaphoreSlim Work?
+
+- When you create a `SemaphoreSlim`, you specify:
+  - **Initial Count**: Number of threads that can enter initially.
+  - **Max Count**: Maximum number of concurrent threads allowed.
+
+### Working Mechanism:
+- When a thread **enters**, the count is **decremented**.
+- When a thread **exits**, the count is **incremented**.
+- If the count reaches **zero**, other threads will **wait (block)** until a slot is available.
+
+---
+
+## Important Methods
+
+- `Wait()` / `WaitAsync()`: Used to enter the semaphore.
+- `Release()`: Used to exit the semaphore.
+
+> ❗ If multiple threads are waiting, there’s **no guarantee of order** (e.g., FIFO or LIFO) for which gets access first.
+
+---
+
+## Example:
+
+```csharp
+class Program
+{
+    static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(2); // Max 2 threads allowed
+
+    static async Task AccessResourceAsync(int id)
+    {
+        Console.WriteLine($"Thread {id} waiting...");
+        await semaphoreSlim.WaitAsync();
+
+        Console.WriteLine($"Thread {id} entered...");
+        await Task.Delay(2000); // Simulate work
+        Console.WriteLine($"Thread {id} leaving...");
+
+        semaphoreSlim.Release();
+    }
+
+    static async Task Main()
+    {
+        List<Task> tasks = new List<Task>();
+        for (int i = 1; i <= 5; i++)
+        {
+            tasks.Add(AccessResourceAsync(i));
+        }
+
+        await Task.WhenAll(tasks);
+    }
+}
+```
+
+---
+
+## Summary
+
+- Use `SemaphoreSlim` when you need to:
+  - Limit **internal** thread access.
+  - Optimize performance over full `Semaphore`.
+  - Work **within a single application scope**.
+
+✅ Lightweight  
+✅ Asynchronous support  
+❌ Not for external/cross-process threads

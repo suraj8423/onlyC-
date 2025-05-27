@@ -107,6 +107,8 @@ Parallel Programming:
 
 Understanding the difference between CPU-bound and I/O-bound operations is essential when deciding whether to use **Asynchronous** or **Parallel Programming**.
 
+- The method which is marked with the async keyword must return a Task or Task<T>. The idea of a Task is that it represents an asynchronous operation and does not return anything. In the case of Task<T>, it is like a promise that in the future this method will return a value of the data type T. 
+
 ---
 
 ## 🧵 Asynchronous Programming: Best for I/O-Bound Operations

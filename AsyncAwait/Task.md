@@ -89,3 +89,7 @@ namespace AsynchronousProgramming
     }
 }
 ```
+- Whenever we use Task as return type it also comes with the error(in case if happens)... but the thing is if you will not use the await keyword you will never be able to catch the error.
+- So we use try catch block for that only if Task will give you any error then it will automatically redirect you to catch block.
+
+### Note: We can catch exceptions by using a simple try-catch block. But if we never await the task, then even if we have an exception, the exception is not going to be thrown. So, if you want to be notified about the exceptions that you may have, you need to await the task.

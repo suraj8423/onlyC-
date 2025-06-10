@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+```csharp
+
+using System.Collections.Generic;
 namespace LINQDemo
 {
     public class Student
@@ -61,3 +63,8 @@ namespace LINQDemo
         }
     }
 }
+
+Note: It’s important to note that the Where method uses deferred execution. This means the filtering is not actually performed when the Where method is called. Instead, the filtering happens when you iterate over the filtered collection, like when using a for each loop or converting it to a list or an array.
+
+
+```

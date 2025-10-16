@@ -242,7 +242,7 @@ namespace RefvsOutDemo
             Console.ReadKey();
         }
         
-        public static void Add(int num1, int num2, out int Result)
+        public static void Add(int num1, int num2, out giint Result)
         {
             Result = num1 + num2;
         }
